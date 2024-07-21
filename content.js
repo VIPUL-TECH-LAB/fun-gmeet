@@ -1,3 +1,16 @@
+const commands = [
+  // -- Effects
+  "!say",
+  // --- Emoji (index >= 1)
+  "!happy",
+  "!sad",
+  "!laugh",
+  "!clap",
+  "!heart",
+  "!wow",
+  "!party",
+];
+
 const emojiMap = {
   "!happy": "😊",
   "!sad": "😢",
@@ -18,10 +31,9 @@ const animationStyles = [
 ];
 
 function createEmojiElement(emoji) {
-  console.log("Creating emoji element:", emoji);
   const emojiDiv = document.createElement("div");
   emojiDiv.textContent = emoji;
-  emojiDiv.classList.add("meet-emoji");
+  emojiDiv.classList.add("emoji");
   emojiDiv.style.left = `${Math.random() * 80 + 10}%`;
   emojiDiv.style.bottom = "20%";
   document.body.appendChild(emojiDiv);
@@ -29,19 +41,42 @@ function createEmojiElement(emoji) {
   setTimeout(() => {
     const randomAnimation =
       animationStyles[Math.floor(Math.random() * animationStyles.length)];
-    emojiDiv.classList.add("emoji-animate", randomAnimation);
+    emojiDiv.classList.add("effect", randomAnimation);
     setTimeout(() => emojiDiv.remove(), 2000);
   }, 100);
 }
 
-function handleNewMessage(node) {
-  console.log("Handling new message:", node);
-  const messageText = node.textContent.trim().toLowerCase();
-  Object.entries(emojiMap).forEach(([command, emoji]) => {
-    if (messageText.includes(command)) {
-      createEmojiElement(emoji);
-    }
+function createWaveTextElement(text) {
+  const waveText = document.createElement("p");
+  waveText.classList.add("wave-text");
+
+  text.split("").forEach((char, index) => {
+    const span = document.createElement("span");
+    span.textContent = char;
+    span.style.animationDelay = `${index * 0.1}s`;
+    waveText.appendChild(span);
   });
+  document.body.appendChild(waveText);
+
+  setTimeout(() => waveText.remove(), 2000);
+}
+
+function handleNewMessage(node) {
+  const messageText = node.textContent.trim().toLowerCase();
+  const commandIdx = commands.findIndex((command) =>
+    messageText.startsWith(command)
+  );
+
+  if (commandIdx === 0) {
+    const text = node.textContent.trim().substring(5);
+    createWaveTextElement(text);
+  } else if (commandIdx >= 1) {
+    Object.entries(emojiMap).forEach(([command, emoji]) => {
+      if (messageText.includes(command)) {
+        createEmojiElement(emoji);
+      }
+    });
+  }
 }
 
 function findChatContainer() {
@@ -76,10 +111,8 @@ function observeChatMessages() {
   function startObserver() {
     const chatContainer = findChatContainer();
     if (chatContainer) {
-      console.log("Chat container found, starting observer");
       observer.observe(chatContainer, { childList: true, subtree: true });
     } else {
-      console.log("Chat container not found, retrying in 1 second");
       setTimeout(startObserver, 1000);
     }
   }
@@ -89,7 +122,6 @@ function observeChatMessages() {
 
 // Initial setup
 function init() {
-  console.log("Initializing Google Meet Emoji Reactions extension");
   observeChatMessages();
 }
 

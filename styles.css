@@ -1,4 +1,6 @@
-.meet-emoji {
+@import url('https://fonts.googleapis.com/css2?family=Comic+Sans+MS:wght@700&display=swap');
+
+.emoji {
   position: fixed;
   font-size: 50px;
   z-index: 9999;
@@ -7,7 +9,7 @@
   transition: opacity 0.3s ease-in-out;
 }
 
-.emoji-animate {
+.effect {
   animation-duration: 2s;
   animation-fill-mode: forwards;
   opacity: 1;
@@ -122,4 +124,42 @@
 }
 .shake {
   animation-name: shake;
+}
+
+
+@keyframes wave {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.wave-text {
+  z-index: 100;
+  position: absolute;
+  top: 50%; right: 50%;
+  transform: translate(50%,-50%);
+
+  font-family: 'Comic Sans MS', cursive;
+  font-size: 6em;
+  font-weight: bold;
+  display: inline-block;
+  color: #3498db;
+  background: linear-gradient(45deg, #3498db, #87ceeb);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 
+    3px 3px 0 #3498db,
+    6px 6px 0 #4545c8,
+    9px 9px 0 #0000FF,
+    12px 12px 0 rgba(0, 0, 255, 0.5);
+  -webkit-text-stroke: 1px #0000FF;
+}
+
+.wave-text span {
+  display: inline-block;
+  animation: wave 1.5s infinite ease-in-out;
 }
