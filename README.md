@@ -31,4 +31,17 @@ To install the Fun GMeet Chrome Extension, follow these steps:
 
 Once installed, the extension will automatically apply custom functionality when you join a Google Meet.
 
+#### Supported Commands
+**EMOJI**
+    - `!happy`
+    - `!sad`
+    - `!laugh`
+    - `!clap`
+    - `!heart`
+    - `!wow`
+    - `!party`
+
+**OTHERS**
+    - `!say <MESSAGE>`
+
 **Demo**
