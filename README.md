@@ -47,6 +47,4 @@ _others_
 
 - `!say <MESSAGE>`
 
-**Demo**
-
-<video src="demo.mp4">Demo</video>
+[**Demo**](demo.mp4)
