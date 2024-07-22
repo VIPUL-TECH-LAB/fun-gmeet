@@ -2,7 +2,7 @@
 
 ### Overview
 
-The Fun-GMeet Chrome Extension enhances your Google Meet experience with additional features and customizations.
+The Fun-GMeet Chrome Extension enhances your Google Meet experience with additional features and customizations. Can trivally be ported to any other app which supports chat interface.
 
 ### Installation
 
@@ -47,4 +47,6 @@ _others_
 
 - `!say <MESSAGE>`
 
-[**Demo**](demo.mp4)
+**Demo**
+
+![](demo.gif)
