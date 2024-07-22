@@ -93,37 +93,59 @@ function findChatContainer() {
     .childNodes[2];
 }
 
+function findChatOverlayContainer() {
+  return document.querySelectorAll("[data-update-corner]")[0];
+}
+
 function observeChatMessages() {
   const observer = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
       mutation.addedNodes.forEach((node) => {
-        if (node.nodeType === Node.ELEMENT_NODE) {
-          const messageNode = node.querySelector("[data-is-tv]");
-          if (messageNode && !messageNode.dataset.messageParsed) {
-            handleNewMessage(messageNode);
-            messageNode.dataset.messageParsed = "true";
+        if (node.nodeType === Node.TEXT_NODE) {
+          const isCommand = commands.find((command) =>
+            node.wholeText.startsWith(command)
+          );
+          if (isCommand) {
+            const messageNode = node.parentNode;
+            if (messageNode && !messageNode.dataset.messageParsed) {
+              handleNewMessage(messageNode);
+              messageNode.dataset.messageParsed = "true";
+            }
           }
         }
       });
     });
   });
 
-  function startObserver() {
-    const chatContainer = findChatContainer();
-    if (chatContainer) {
-      observer.observe(chatContainer, { childList: true, subtree: true });
+  function startChatOverlayObserver() {
+    const chatOverlayContainer = findChatOverlayContainer();
+
+    if (chatOverlayContainer) {
+      observer.observe(chatOverlayContainer, {
+        childList: true,
+        subtree: true,
+      });
     } else {
-      setTimeout(startObserver, 1000);
+      setTimeout(startChatOverlayObserver, 1000);
     }
   }
 
-  startObserver();
+  function startChatboxObserver() {
+    const chatContainer = findChatContainer();
+
+    if (chatContainer) {
+      observer.observe(chatContainer, { childList: true, subtree: true });
+    } else {
+      setTimeout(startChatboxObserver, 1000);
+    }
+  }
+
+  startChatboxObserver();
+  startChatOverlayObserver();
 }
 
-// Initial setup
 function init() {
   observeChatMessages();
 }
 
-// Start the extension
 init();

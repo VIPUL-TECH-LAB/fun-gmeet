@@ -141,6 +141,8 @@
   position: absolute;
   top: 50%; right: 50%;
   transform: translate(50%,-50%);
+  width: 80%;
+  
 
   font-family: 'Comic Sans MS', cursive;
   font-size: 6em;
